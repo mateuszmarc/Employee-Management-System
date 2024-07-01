@@ -45,7 +45,10 @@
                             <button class="btn btn-success">Edit</button>
                         </a>
                         <a th:href="@{/employees/delete/{employeeId}(employeeId = ${employee.id})}">
-                            <button class="btn btn-danger">Delete</button>
+                            <button class="btn btn-danger"
+                                    onclick="if (!confirm('Are you sure you want to delete this employee?')) return false">
+                                Delete
+                            </button>
                         </a>
                     </td>
 
