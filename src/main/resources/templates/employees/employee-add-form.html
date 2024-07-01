@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <div class="header mt-3 mb-3">
+        <h2>Employee Directory</h2>
+    </div>
+    <hr>
+    <p class="h4 mb-4">Save employee</p>
+    <form action="#" th:action="@{/employees/save}" th:method="POST" th:object="${employee}">
+        <div class="form-group">
+            <input class="form-control mb-4 w-25" th:field="${employee.firstName}" type="text" placeholder="First Name">
+            <span th:if="${#fields.hasErrors('firstName')}"
+            th:errors="${employee.firstName}"
+            class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input class="form-control mb-4 w-25" th:field="${employee.lastName}" type="text" placeholder="Last Name">
+            <span th:if="${#fields.hasErrors('lastName')}"
+            th:errors="${employee.lastName}"
+            class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input class="form-control mb-4 w-25" th:field="${employee.email}" type="text" placeholder="Email">
+            <span th:if="${#fields.hasErrors('email')}"
+            th:errors="${employee.email}"
+            class="text-danger"></span>
+        </div>
+
+        <button class="btn btn-info col-2">Save</button>
+
+        <hr>
+
+        <a class="link-primary" th:href="@{/employees/list}">Back to Employees List</a>
+    </form>
+</div>
+</body>
+</html>

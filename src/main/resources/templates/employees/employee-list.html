@@ -10,11 +10,14 @@
 </head>
 
 <div class="container">
-    <h3>Employee Directory</h3>
+    <div class="header mt-3 mb-3">
+        <h2>Employee Directory</h2>
+    </div>
+    <hr>
     <div class="row">
         <div class="col-12">
-            <a th:href="@{/employees/add}">
-                <button type="button" class="btn btn-secondary">Add Employee</button>
+            <a th:href="@{/employees/save}">
+                <button type="button" class="btn btn-secondary button-sm mb-3">Add Employee</button>
             </a>
         </div>
     </div>
@@ -23,7 +26,6 @@
             <table class="table table-striped">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Id</th>
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
                     <th scope="col">Email</th>
@@ -32,7 +34,6 @@
                 </thead>
                 <tbody>
                 <tr th:each="employee : ${employees}">
-                    <td th:text="${employee.id}"></td>
                     <td th:text="${employee.firstName}"></td>
                     <td th:text="${employee.lastName}"></td>
                     <td th:text="${employee.email}"></td>

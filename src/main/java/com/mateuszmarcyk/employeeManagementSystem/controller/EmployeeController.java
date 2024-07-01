@@ -2,13 +2,14 @@ package com.mateuszmarcyk.employeeManagementSystem.controller;
 
 import com.mateuszmarcyk.employeeManagementSystem.entity.Employee;
 import com.mateuszmarcyk.employeeManagementSystem.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,19 +24,42 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+    }
+
+
     @GetMapping("/list")
     public String showEmployees(Model model) {
         List<Employee> employees = employeeService.findAll();
 
         model.addAttribute("employees", employees);
 
-        return "employee-list";
+        return "/employees/employee-list";
     }
 
-    @GetMapping("/details/{employeeId}")
-    @ResponseBody
-    public String showEmployeeDetails(@PathVariable Long employeeId) {
-        Employee employee = employeeService.findById(employeeId);
-        return employee.toString();
+    @GetMapping("/save")
+    public String showAddEmployeeForm(Model model) {
+
+        Employee employee = new Employee();
+        model.addAttribute("employee", employee);
+
+        return "employees/employee-add-form";
+    }
+
+    @PostMapping("/save")
+    public String saveEmployee(@Valid @ModelAttribute Employee employee, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "/employees/employee-add-form";
+        } else {
+            employeeService.save(employee);
+
+            return "redirect:/employees/list";
+        }
+
+
     }
 }
