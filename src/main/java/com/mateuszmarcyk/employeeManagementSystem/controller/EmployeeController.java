@@ -91,4 +91,13 @@ public class EmployeeController {
     }
 
 
+    @GetMapping("/details/{employeeId}")
+    public String showEmployeeDetails(@PathVariable Long employeeId, Model model) {
+
+        Employee employee = employeeService.findById(employeeId);
+
+        model.addAttribute("employee", employee);
+
+        return "/employees/employee-details";
+    }
 }
