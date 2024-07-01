@@ -12,8 +12,9 @@
         <h2>Employee Directory</h2>
     </div>
     <hr>
-    <p class="h4 mb-4">Save employee</p>
+    <p class="h4 mb-4" th:text="${title}"></p>
     <form action="#" th:action="@{/employees/save}" th:method="POST" th:object="${employee}">
+        <input type="hidden" th:field="${employee.id}">
         <div class="form-group">
             <input class="form-control mb-4 w-25" th:field="${employee.firstName}" type="text" placeholder="First Name">
             <span th:if="${#fields.hasErrors('firstName')}"

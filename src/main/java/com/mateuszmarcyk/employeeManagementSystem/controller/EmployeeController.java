@@ -45,21 +45,42 @@ public class EmployeeController {
 
         Employee employee = new Employee();
         model.addAttribute("employee", employee);
+        model.addAttribute("title", "Add Employee");
 
-        return "employees/employee-add-form";
+        return "/employees/employee-form";
     }
 
     @PostMapping("/save")
-    public String saveEmployee(@Valid @ModelAttribute Employee employee, BindingResult bindingResult) {
+    public String saveEmployee(Model model, @Valid @ModelAttribute Employee employee, BindingResult bindingResult) {
+
 
         if (bindingResult.hasErrors()) {
-            return "/employees/employee-add-form";
-        } else {
+            String title = "Add Employee";
+
+            if (employee.getId() != null) {
+                title = "Edit Employee";
+            }
+
+            model.addAttribute("title", title);
+
+            return "employees/employee-form";
+        }
+
             employeeService.save(employee);
 
             return "redirect:/employees/list";
-        }
-
 
     }
+
+    @GetMapping("/edit/{employeeId}")
+    public String showEmployeeEditFrom(Model model, @PathVariable Long employeeId) {
+        Employee employee = employeeService.findById(employeeId);
+
+        model.addAttribute("employee", employee);
+        model.addAttribute("title", "Edit Employee");
+
+        return "employees/employee-form";
+    }
+
+
 }
